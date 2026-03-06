@@ -20,6 +20,10 @@
     "find-skills": {
       "version": "0.1.0",
       "installedAt": 1772792427359
+    },
+    "self-improving-agent": {
+      "version": "1.0.11",
+      "installedAt": 1772792754208
     }
   }
 }
