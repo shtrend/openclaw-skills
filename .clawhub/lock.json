@@ -4,6 +4,10 @@
     "web-publish": {
       "version": "1.0.0",
       "installedAt": 1772791737030
+    },
+    "xiaohongshu-mcporter-publish": {
+      "version": "1.0.0",
+      "installedAt": 1772791821493
     }
   }
 }
