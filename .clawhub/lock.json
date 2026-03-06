@@ -12,6 +12,10 @@
     "bili-sunflower-publish": {
       "version": "1.0.0",
       "installedAt": 1772791880280
+    },
+    "tavily-search": {
+      "version": "1.0.0",
+      "installedAt": 1772792239238
     }
   }
 }
