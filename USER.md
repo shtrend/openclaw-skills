@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** 深最帅
 - **Pronouns:** _(optional)_
 - **Timezone:** Asia/Shanghai
-- **Notes:** 用户自称“深最帅”，希望被这样称呼。
+- **Notes:** 用户自称“深最帅”，希望被这样称呼；视频下载类需求希望默认给出可直接保存的下载链接。
 
 ## Context
 
