@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛠️ OpenClaw 技能库</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #e0e0e0;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header { 
+      text-align: center; 
+      margin-bottom: 50px;
+    }
+    h1 { 
+      font-size: 3em; 
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00d9ff, #00ff88, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .meta { 
+      color: #666; 
+      font-size: 0.9em;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2em;
+      font-weight: bold;
+      color: #00d9ff;
+    }
+    .stat-label {
+      color: #888;
+      font-size: 0.85em;
+    }
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+      gap: 20px; 
+    }
+    .card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00d9ff, #00ff88);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,217,255,0.3);
+      box-shadow: 0 10px 40px rgba(0,217,255,0.1);
+    }
+    .card:hover::before { opacity: 1; }
+    .card h2 { 
+      font-size: 1.1em; 
+      margin-bottom: 10px;
+      color: #00d9ff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card .emoji { font-size: 1.3em; }
+    .card p { 
+      color: #999; 
+      line-height: 1.6;
+      font-size: 0.88em;
+    }
+    .tags { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 6px; 
+      margin-top: 14px;
+    }
+    .tag {
+      background: rgba(0,255,136,0.08);
+      color: #00ff88;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.72em;
+      border: 1px solid rgba(0,255,136,0.15);
+    }
+    .card.new {
+      border-color: rgba(255,215,0,0.3);
+    }
+    .card.new::after {
+      content: '🆕 NEW';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 0.65em;
+      color: #ffd700;
+      background: rgba(255,215,0,0.1);
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #444;
+      font-size: 0.8em;
+    }
+    .footer a { color: #00d9ff; text-decoration: none; }
+    
+    /* 分类标签样式 */
+    .tag.hr { background: rgba(255,107,107,0.1); color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
+    .tag.finance { background: rgba(0,255,136,0.1); color: #00ff88; border-color: rgba(0,255,136,0.2); }
+    .tag.trade { background: rgba(255,159,67,0.1); color: #ff9f43; border-color: rgba(255,159,67,0.2); }
+    .tag.dev { background: rgba(0,206,255,0.1); color: #00ceff; border-color: rgba(0,206,255,0.2); }
+    .tag.ai { background: rgba(189,147,249,0.1); color: #bd93f9; border-color: rgba(189,147,249,0.2); }
+    .tag.media { background: rgba(255,71,87,0.1); color: #ff4757; border-color: rgba(255,71,87,0.2); }
+    .tag.security { background: rgba(255,89,94,0.1); color: #ff595e; border-color: rgba(255,89,94,0.2); }
+    .tag.tool { background: rgba(46,213,115,0.1); color: #2ed573; border-color: rgba(46,213,115,0.2); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🛠️ OpenClaw 技能库</h1>
+      <p class="meta">持续更新 · OpenClaw Agent Skills</p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">22</div>
+          <div class="stat-label">已安装技能</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">14</div>
+          <div class="stat-label">今日新增</div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="grid">
+      <!-- 今日新增 -->
+      <div class="card new">
+        <h2><span class="emoji">📋</span> labor-law</h2>
+        <p>劳动法速查工具。劳动者权益、加班规定、休假制度、劳动合同、劳动争议、经济补偿。</p>
+        <div class="tags">
+          <span class="tag hr">劳动法</span>
+          <span class="tag hr">权益</span>
+          <span class="tag hr">仲裁</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">💰</span> investment-portfolio</h2>
+        <p>投资组合分析。资产配置、风险评估、再平衡、收益分析、分散化、回测。</p>
+        <div class="tags">
+          <span class="tag finance">投资</span>
+          <span class="tag finance">资产配置</span>
+          <span class="tag finance">风险分析</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🎯</span> polyclawster-agent</h2>
+        <p>Polymarket 预测市场交易。非托管 - Agent 生成 Polygon 钱包，本地签名订单，通过 relay 提交。需资金。</p>
+        <div class="tags">
+          <span class="tag trade">交易</span>
+          <span class="tag trade">预测市场</span>
+          <span class="tag trade">Polygon</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">📁</span> wip-repo-init</h2>
+        <p>脚手架标准 ai/ 目录结构。在任何仓库中创建标准的 AI 开发目录结构。</p>
+        <div class="tags">
+          <span class="tag dev">脚手架</span>
+          <span class="tag dev">目录结构</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">📝</span> summarize</h2>
+        <p>快速摘要 URL、文件和 YouTube 链接。支持 OpenAI、Anthropic、xAI、Google 模型。</p>
+        <div class="tags">
+          <span class="tag ai">摘要</span>
+          <span class="tag ai">URL</span>
+          <span class="tag ai">YouTube</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🎙️</span> openai-whisper</h2>
+        <p>本地语音转文字。使用 Whisper CLI，无需 API key，支持多语言。</p>
+        <div class="tags">
+          <span class="tag ai">语音转文字</span>
+          <span class="tag ai">Whisper</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">📄</span> nano-pdf</h2>
+        <p>用自然语言指令编辑 PDF。使用 nano-pdf CLI 操作特定页面。</p>
+        <div class="tags">
+          <span class="tag tool">PDF</span>
+          <span class="tag tool">编辑</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🖼️</span> nano-banana-pro</h2>
+        <p>Google Gemini 3 Pro 图片生成和编辑。文生图、图生图，支持 1K/2K/4K 分辨率。</p>
+        <div class="tags">
+          <span class="tag ai">图片生成</span>
+          <span class="tag ai">Gemini</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🐙</span> github</h2>
+        <p>使用 gh CLI 与 GitHub 交互。处理 PR、issues、workflows 和高级查询。</p>
+        <div class="tags">
+          <span class="tag dev">GitHub</span>
+          <span class="tag dev">PR</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">✍️</span> humanizer</h2>
+        <p>去除 AI 写作痕迹。基于 Wikipedia 指南，识别并修复 24+ 种 AI 写作模式。</p>
+        <div class="tags">
+          <span class="tag ai">写作</span>
+          <span class="tag ai">润色</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🚀</span> proactive-agent</h2>
+        <p>主动式 Agent 架构。WAL 协议、Working Buffer、Compaction Recovery、自主动 cron。</p>
+        <div class="tags">
+          <span class="tag ai">架构</span>
+          <span class="tag ai">Hal Stack</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">💎</span> obsidian</h2>
+        <p>操作 Obsidian vault。搜索、创建、移动笔记，管理知识库。</p>
+        <div class="tags">
+          <span class="tag tool">Obsidian</span>
+          <span class="tag tool">知识库</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🧠</span> memory-setup</h2>
+        <p>启用和配置记忆搜索。设置 MEMORY.md、日常日志和向量搜索。</p>
+        <div class="tags">
+          <span class="tag ai">记忆</span>
+          <span class="tag ai">向量搜索</span>
+        </div>
+      </div>
+
+      <div class="card new">
+        <h2><span class="emoji">🔒</span> skill-vetter</h2>
+        <p>AI Agent 技能的安全审查协议。安装前检查红旗、权限范围和可疑模式。</p>
+        <div class="tags">
+          <span class="tag security">安全</span>
+          <span class="tag security">审查</span>
+        </div>
+      </div>
+
+      <!-- 已安装技能 -->
+      <div class="card">
+        <h2><span class="emoji">🎬</span> bili-sunflower-publish</h2>
+        <p>B站专栏和小站发布。处理登录检查、标题输入、HTML剪贴板发布。</p>
+        <div class="tags">
+          <span class="tag media">B站</span>
+          <span class="tag media">发布</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🛡️</span> edgeone-clawscan</h2>
+        <p>腾讯朱雀实验室 AI 安全扫描。安全体检、漏洞检测、技能审查。</p>
+        <div class="tags">
+          <span class="tag security">安全</span>
+          <span class="tag security">扫描</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🔍</span> find-skills</span></h2>
+        <p>发现和安装 Agent Skills。搜索技能商店，安装和管理技能。</p>
+        <div class="tags">
+          <span class="tag tool">技能</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🧬</span> self-improving-agent</h2>
+        <p>自改进 Agent。学习错误、记录纠正、持续优化。</p>
+        <div class="tags">
+          <span class="tag ai">自改进</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🌐</span> tavily-search</h2>
+        <p>AI 优化网络搜索。返回结构化结果，支持领域/地区过滤。</p>
+        <div class="tags">
+          <span class="tag ai">搜索</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">📥</span> video-downloader</h2>
+        <p>通用视频下载。支持抖音、B站、YouTube、小红书等主流平台。</p>
+        <div class="tags">
+          <span class="tag media">视频下载</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">🌏</span> web-publish</h2>
+        <p>将本地 Markdown/HTML 一键发布为在线链接，手机直接访问。</p>
+        <div class="tags">
+          <span class="tag tool">发布</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="emoji">📕</span> xiaohongshu-mcporter-publish</h2>
+        <p>小红书 MCP 发布。笔记发布、Markdown 转笔记。</p>
+        <div class="tags">
+          <span class="tag media">小红书</span>
+          <span class="tag media">发布</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>🦀 钳星人 · OpenClaw · <a href="#">更新日志</a></p>
+    </div>
+  </div>
+</body>
+</html>
