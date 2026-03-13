@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>技能详情 - OpenClaw</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    
+    /* 返回按钮 */
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #00d9ff;
+      text-decoration: none;
+      font-size: 0.9em;
+      margin-bottom: 30px;
+      transition: opacity 0.3s;
+    }
+    .back:hover { opacity: 0.8; }
+    
+    /* 头部 */
+    .header {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .icon {
+      font-size: 4em;
+      line-height: 1;
+    }
+    .info { flex: 1; }
+    .info h1 {
+      font-size: 1.8em;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .info .name {
+      color: #00d9ff;
+      font-size: 0.9em;
+      margin-bottom: 12px;
+    }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      background: rgba(0,255,136,0.1);
+      color: #00ff88;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8em;
+    }
+    
+    /* 描述 */
+    .section { margin-bottom: 30px; }
+    .section h2 {
+      font-size: 1em;
+      color: #888;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .desc {
+      color: #ccc;
+      line-height: 1.7;
+    }
+    
+    /* 命令列表 */
+    .commands {
+      display: grid;
+      gap: 10px;
+    }
+    .cmd-item {
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      padding: 15px 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cmd-item code {
+      background: rgba(0,217,255,0.1);
+      color: #00d9ff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    .cmd-item span {
+      color: #888;
+      font-size: 0.85em;
+    }
+    
+    /* 使用方法 */
+    .usage {
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .usage code {
+      color: #00ff88;
+      font-size: 1.1em;
+    }
+    .usage p {
+      color: #888;
+      margin-top: 10px;
+      font-size: 0.85em;
+    }
+    
+    /* 作者 */
+    .author {
+      color: #666;
+      font-size: 0.85em;
+    }
+    
+    /* 加载中 */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: #666;
+    }
+    
+    /* 错误 */
+    .error {
+      text-align: center;
+      padding: 60px;
+      color: #ff6b6b;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 600px) {
+      .header { flex-direction: column; }
+      .icon { font-size: 3em; }
+      .info h1 { font-size: 1.4em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="loading">加载中...</div>
+  </div>
+
+  <script>
+    // 技能数据（内联避免跨域）
+    const skillsData = {
+  "labor-law": {
+    "name": "labor-law",
+    "emoji": "📋",
+    "nameCN": "劳动法速查",
+    "description": "劳动法速查工具。劳动者权益、加班规定、休假制度、劳动合同、劳动争议、经济补偿。专为中文用户设计，理解中国市场和文化。",
+    "category": "hr",
+    "tags": ["劳动法", "权益", "仲裁"],
+    "author": "BytesAgain",
+    "usage": "直接告诉我想查什么，比如：\"查一下加班费怎么算\"",
+    "commands": [
+      {"cmd": "rights", "desc": "劳动者权益"},
+      {"cmd": "overtime", "desc": "加班规定"},
+      {"cmd": "leave", "desc": "休假制度"},
+      {"cmd": "contract", "desc": "劳动合同"},
+      {"cmd": "dispute", "desc": "劳动争议"},
+      {"cmd": "severance", "desc": "经济补偿"}
+    ]
+  },
+  "investment-portfolio": {
+    "name": "investment-portfolio",
+    "emoji": "💰",
+    "nameCN": "投资组合分析",
+    "description": "投资组合分析工具。资产配置、风险评估、再平衡、收益分析、分散化、回测。",
+    "category": "finance",
+    "tags": ["投资", "资产配置", "风险分析"],
+    "author": "BytesAgain",
+    "usage": "告诉我你想做什么，比如：\"帮我配置100万的平衡型组合\"",
+    "commands": [
+      {"cmd": "allocate", "desc": "资产配置"},
+      {"cmd": "risk", "desc": "风险评估"},
+      {"cmd": "rebalance", "desc": "再平衡"},
+      {"cmd": "return", "desc": "收益分析"},
+      {"cmd": "diversify", "desc": "分散化"},
+      {"cmd": "backtest", "desc": "回测"}
+    ]
+  },
+  "polyclawster-agent": {
+    "name": "polyclawster-agent",
+    "emoji": "🎯",
+    "nameCN": "Polymarket 预测市场交易",
+    "description": "在 Polymarket 预测市场进行交易。非托管模式，Agent 生成 Polygon 钱包，本地签名订单，通过 relay 提交。需要 funding。",
+    "category": "trade",
+    "tags": ["交易", "预测市场", "Polygon"],
+    "author": "PolyClawster",
+    "usage": "setup.js --auto 初始化 → funding POL → trade.js 下单",
+    "commands": [
+      {"cmd": "setup.js --auto", "desc": "创建钱包+注册"},
+      {"cmd": "balance.js", "desc": "查看余额"},
+      {"cmd": "browse.js 关键词", "desc": "搜索市场"},
+      {"cmd": "trade.js --market --side YES/NO --amount", "desc": "下单交易"}
+    ]
+  },
+  "wip-repo-init": {
+    "name": "wip-repo-init",
+    "emoji": "📁",
+    "nameCN": "AI目录脚手架",
+    "description": "在任何仓库中脚手架标准 ai/ 目录结构。包含 product、dev-updates、plans-prds 等标准目录。",
+    "category": "dev",
+    "tags": ["脚手架", "目录结构"],
+    "author": "Parker Todd Brooks",
+    "usage": "wip-repo-init /path/to/repo [--dry-run] [--yes]",
+    "commands": [
+      {"cmd": "wip-repo-init /path", "desc": "创建标准 ai/ 目录"},
+      {"cmd": "--dry-run", "desc": "预览不修改"},
+      {"cmd": "--yes", "desc": "跳过确认"}
+    ]
+  },
+  "summarize": {
+    "name": "summarize",
+    "emoji": "📝",
+    "nameCN": "内容摘要",
+    "description": "快速摘要 URL、文件和 YouTube 链接。支持 OpenAI、Anthropic、xAI、Google 模型。",
+    "category": "ai",
+    "tags": ["摘要", "URL", "YouTube"],
+    "author": "summarize.sh",
+    "usage": "summarize \"URL\" [--model provider/model]",
+    "commands": [
+      {"cmd": "summarize \"url\"", "desc": "摘要URL"},
+      {"cmd": "--model google/gemini", "desc": "指定模型"},
+      {"cmd": "--length short|long", "desc": "长度控制"},
+      {"cmd": "--json", "desc": "JSON输出"}
+    ]
+  },
+  "openai-whisper": {
+    "name": "openai-whisper",
+    "emoji": "🎙️",
+    "nameCN": "语音转文字",
+    "description": "本地语音转文字。使用 OpenAI Whisper CLI，无需 API key，支持多语言。",
+    "category": "ai",
+    "tags": ["语音转文字", "Whisper"],
+    "author": "OpenAI",
+    "usage": "whisper audio.mp3 [--model medium] [--output_format txt]",
+    "commands": [
+      {"cmd": "--model turbo", "desc": "快速模型(默认)"},
+      {"cmd": "--model medium", "desc": "中等精度"},
+      {"cmd": "--output_format txt", "desc": "文本输出"},
+      {"cmd": "--output_format srt", "desc": "字幕输出"}
+    ]
+  },
+  "nano-pdf": {
+    "name": "nano-pdf",
+    "emoji": "📄",
+    "nameCN": "PDF编辑器",
+    "description": "用自然语言指令编辑 PDF。可以修改文字、调整格式等。",
+    "category": "tool",
+    "tags": ["PDF", "编辑"],
+    "author": "nano-pdf",
+    "usage": "nano-pdf edit file.pdf 页码 \"修改指令\"",
+    "commands": [
+      {"cmd": "edit", "desc": "编辑PDF页面"},
+      {"cmd": "页码", "desc": "0或1起始(看版本)"}
+    ]
+  },
+  "nano-banana-pro": {
+    "name": "nano-banana-pro",
+    "emoji": "🖼️",
+    "nameCN": "AI图片生成",
+    "description": "Google Gemini 3 Pro 图片生成和编辑。文生图、图生图，支持 1K/2K/4K 分辨率。",
+    "category": "ai",
+    "tags": ["图片生成", "Gemini"],
+    "author": "Nano Banana",
+    "usage": "uv run script.py --prompt \"描述\" --filename name.png [--resolution 1K]",
+    "commands": [
+      {"cmd": "--prompt", "desc": "图片描述"},
+      {"cmd": "--input-image", "desc": "输入图片(编辑模式)"},
+      {"cmd": "--resolution 1K|2K|4K", "desc": "分辨率"}
+    ]
+  },
+  "github": {
+    "name": "github",
+    "emoji": "🐙",
+    "nameCN": "GitHub CLI",
+    "description": "使用 gh CLI 与 GitHub 交互。处理 PR、issues、workflows 和高级查询。",
+    "category": "dev",
+    "tags": ["GitHub", "PR", "CLI"],
+    "author": "GitHub",
+    "usage": "gh 命令",
+    "commands": [
+      {"cmd": "gh pr checks", "desc": "检查PR状态"},
+      {"cmd": "gh run list", "desc": "列出workflow"},
+      {"cmd": "gh issue list", "desc": "列出issues"},
+      {"cmd": "gh api", "desc": "API高级查询"}
+    ]
+  },
+  "humanizer": {
+    "name": "humanizer",
+    "emoji": "✍️",
+    "nameCN": "AI写作润色",
+    "description": "去除 AI 写作痕迹。基于 Wikipedia 指南，识别并修复 24+ 种 AI 写作模式。",
+    "category": "ai",
+    "tags": ["写作", "润色"],
+    "author": "WikiProject AI Cleanup",
+    "usage": "把文本发给它，自动润色",
+    "commands": []
+  },
+  "proactive-agent": {
+    "name": "proactive-agent",
+    "emoji": "🚀",
+    "nameCN": "主动式Agent架构",
+    "description": "主动式 Agent 架构。包含 WAL 协议、Working Buffer、Compaction Recovery、自主动 cron。",
+    "category": "ai",
+    "tags": ["架构", "Hal Stack"],
+    "author": "Hal Labs",
+    "usage": "复制 assets/*.md 到工作区",
+    "commands": []
+  },
+  "obsidian": {
+    "name": "obsidian",
+    "emoji": "💎",
+    "nameCN": "Obsidian操作",
+    "description": "操作 Obsidian vault。搜索、创建、移动笔记。",
+    "category": "tool",
+    "tags": ["Obsidian", "知识库"],
+    "author": "Obsidian",
+    "usage": "obsidian-cli 命令",
+    "commands": [
+      {"cmd": "search \"关键词\"", "desc": "搜索笔记"},
+      {"cmd": "create \"名称\"", "desc": "创建笔记"},
+      {"cmd": "move old new", "desc": "移动/重命名"}
+    ]
+  },
+  "memory-setup": {
+    "name": "memory-setup",
+    "emoji": "🧠",
+    "nameCN": "记忆配置",
+    "description": "启用和配置持久记忆搜索。设置 MEMORY.md 和向量搜索。",
+    "category": "ai",
+    "tags": ["记忆", "向量搜索"],
+    "author": "OpenClaw",
+    "usage": "配置 memorySearch",
+    "commands": []
+  },
+  "skill-vetter": {
+    "name": "skill-vetter",
+    "emoji": "🔒",
+    "nameCN": "技能安全审查",
+    "description": "AI Agent 技能的安全审查协议。安装前检查红旗、权限范围和可疑模式。",
+    "category": "security",
+    "tags": ["安全", "审查"],
+    "author": "OpenClaw",
+    "usage": "安装技能前必查",
+    "commands": []
+  },
+  "bili-sunflower-publish": {
+    "name": "bili-sunflower-publish",
+    "emoji": "🎬",
+    "nameCN": "B站发布",
+    "description": "B站专栏和小站发布。处理登录检查、标题输入、HTML剪贴板发布。",
+    "category": "media",
+    "tags": ["B站", "发布"],
+    "author": "信为美AI",
+    "usage": "发布到B站专栏/小站",
+    "commands": []
+  },
+  "edgeone-clawscan": {
+    "name": "edgeone-clawscan",
+    "emoji": "🛡️",
+    "nameCN": "安全扫描",
+    "description": "腾讯朱雀实验室 AI 安全扫描。安全体检、漏洞检测、技能审查。",
+    "category": "security",
+    "tags": ["安全", "扫描"],
+    "author": "Tencent",
+    "usage": "开始安全体检",
+    "commands": []
+  },
+  "find-skills": {
+    "name": "find-skills",
+    "emoji": "🔍",
+    "nameCN": "技能发现",
+    "description": "发现和安装 Agent Skills。搜索技能商店，安装和管理技能。",
+    "category": "tool",
+    "tags": ["技能"],
+    "author": "OpenClaw",
+    "usage": "搜索安装技能",
+    "commands": []
+  },
+  "self-improving-agent": {
+    "name": "self-improving-agent",
+    "emoji": "🧬",
+    "nameCN": "自改进Agent",
+    "description": "自改进 Agent。学习错误、记录纠正、持续优化。",
+    "category": "ai",
+    "tags": ["自改进"],
+    "author": "OpenClaw",
+    "usage": "自动学习改进",
+    "commands": []
+  },
+  "tavily-search": {
+    "name": "tavily-search",
+    "emoji": "🌐",
+    "nameCN": "Tavily搜索",
+    "description": "AI 优化网络搜索。返回结构化结果，支持领域/地区过滤。",
+    "category": "ai",
+    "tags": ["搜索"],
+    "author": "Tavily",
+    "usage": "web_search 工具",
+    "commands": []
+  },
+  "video-downloader": {
+    "name": "video-downloader",
+    "emoji": "📥",
+    "nameCN": "视频下载",
+    "description": "通用视频下载。支持抖音、B站、YouTube、小红书等主流平台。",
+    "category": "media",
+    "tags": ["视频下载"],
+    "author": "OpenClaw",
+    "usage": "发送视频链接给我",
+    "commands": []
+  },
+  "web-publish": {
+    "name": "web-publish",
+    "emoji": "🌏",
+    "nameCN": "网页发布",
+    "description": "将本地 Markdown/HTML 一键发布为在线链接，手机直接访问。",
+    "category": "tool",
+    "tags": ["发布"],
+    "author": "信为美AI",
+    "usage": "publish file.md",
+    "commands": []
+  },
+  "xiaohongshu-mcporter-publish": {
+    "name": "xiaohongshu-mcporter-publish",
+    "emoji": "📕",
+    "nameCN": "小红书发布",
+    "description": "小红书 MCP 发布。笔记发布、Markdown 转笔记。",
+    "category": "media",
+    "tags": ["小红书", "发布"],
+    "author": "OpenClaw",
+    "usage": "发布到小红书",
+    "commands": []
+  }
+};
+
+    // 获取URL参数
+    const params = new URLSearchParams(window.location.search);
+    const skillName = params.get('skill');
+
+    // 渲染页面
+    const app = document.getElementById('app');
+    
+    if (!skillName) {
+      app.innerHTML = '<div class="error">缺少技能参数</div>';
+    } else if (!skillsData[skillName]) {
+      app.innerHTML = `<div class="error">技能 "${skillName}" 未找到</div>`;
+    } else {
+      const s = skillsData[skillName];
+      
+      let cmdsHtml = s.commands.length > 0 
+        ? `<div class="commands">${s.commands.map(c => `
+          <div class="cmd-item">
+            <code>${c.cmd}</code>
+            <span>${c.desc}</span>
+          </div>
+        `).join('')}</div>`
+        : '<p style="color:#666;">无需命令，自然语言交互</p>';
+      
+      app.innerHTML = `
+        <a href="skills-list.html" class="back">← 返回技能库</a>
+        
+        <div class="header">
+          <div class="icon">${s.emoji}</div>
+          <div class="info">
+            <h1>${s.nameCN}</h1>
+            <div class="name">${s.name}</div>
+            <div class="tags">${s.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>简介</h2>
+          <p class="desc">${s.description}</p>
+        </div>
+        
+        <div class="section">
+          <h2>使用方法</h2>
+          <div class="usage">
+            <code>${s.usage}</code>
+            <p>作者: ${s.author}</p>
+          </div>
+        </div>
+        
+        ${s.commands.length > 0 ? `
+        <div class="section">
+          <h2>可用命令</h2>
+          <div class="commands">${s.commands.map(c => `
+            <div class="cmd-item">
+              <code>${c.cmd}</code>
+              <span>${c.desc}</span>
+            </div>
+          `).join('')}</div>
+        </div>
+        ` : ''}
+      `;
+    }
+  </script>
+</body>
+</html>

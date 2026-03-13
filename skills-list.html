@@ -159,6 +159,7 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
     .card::before {
       content: '';
@@ -572,6 +573,17 @@
       noResult.classList.toggle('show', visibleCount === 0);
       document.getElementById('totalCount').textContent = visibleCount;
     }
+
+    // 卡片点击事件 - 跳转到详情页
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const h2 = card.querySelector('h2');
+        const match = h2.textContent.match(/(\S+)$/);
+        if (match) {
+          window.location.href = `skill-detail.html?skill=${match[1]}`;
+        }
+      });
+    });
   </script>
 </body>
 </html>

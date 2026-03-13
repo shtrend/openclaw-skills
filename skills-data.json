@@ -1,0 +1,291 @@
+{
+  "labor-law": {
+    "name": "labor-law",
+    "emoji": "📋",
+    "nameCN": "劳动法速查",
+    "description": "劳动法速查工具。劳动者权益、加班规定、休假制度、劳动合同、劳动争议、经济补偿。",
+    "category": "hr",
+    "tags": ["劳动法", "权益", "仲裁"],
+    "author": "BytesAgain",
+    "usage": "直接输入命令使用",
+    "commands": [
+      {"cmd": "rights", "desc": "劳动者权益"},
+      {"cmd": "overtime", "desc": "加班规定"},
+      {"cmd": "leave", "desc": "休假制度"},
+      {"cmd": "contract", "desc": "劳动合同"},
+      {"cmd": "dispute", "desc": "劳动争议"},
+      {"cmd": "severance", "desc": "经济补偿"}
+    ]
+  },
+  "investment-portfolio": {
+    "name": "investment-portfolio",
+    "emoji": "💰",
+    "nameCN": "投资组合分析",
+    "description": "投资组合分析工具。资产配置、风险评估、再平衡、收益分析、分散化、回测。",
+    "category": "finance",
+    "tags": ["投资", "资产配置", "风险分析"],
+    "author": "BytesAgain",
+    "usage": "allocate/风险金额",
+    "commands": [
+      {"cmd": "allocate", "desc": "资产配置"},
+      {"cmd": "risk", "desc": "风险评估"},
+      {"cmd": "rebalance", "desc": "再平衡"},
+      {"cmd": "return", "desc": "收益分析"},
+      {"cmd": "diversify", "desc": "分散化"},
+      {"cmd": "backtest", "desc": "回测"}
+    ]
+  },
+  "polyclawster-agent": {
+    "name": "polyclawster-agent",
+    "emoji": "🎯",
+    "nameCN": "Polymarket 交易",
+    "description": "在 Polymarket 预测市场进行交易。非托管模式，Agent 生成 Polygon 钱包，本地签名订单。",
+    "category": "trade",
+    "tags": ["交易", "预测市场", "Polygon"],
+    "author": "PolyClawster",
+    "usage": "setup.js --auto 初始化，然后 funding",
+    "commands": [
+      {"cmd": "setup.js --auto", "desc": "创建钱包+注册"},
+      {"cmd": "balance.js", "desc": "查看余额"},
+      {"cmd": "browse.js", "desc": "搜索市场"},
+      {"cmd": "trade.js", "desc": "下单交易"}
+    ]
+  },
+  "wip-repo-init": {
+    "name": "wip-repo-init",
+    "emoji": "📁",
+    "nameCN": "AI目录脚手架",
+    "description": "在任何仓库中脚手架标准 ai/ 目录结构。",
+    "category": "dev",
+    "tags": ["脚手架", "目录结构"],
+    "author": "Parker Todd Brooks",
+    "usage": "wip-repo-init /path/to/repo",
+    "commands": [
+      {"cmd": "wip-repo-init /path", "desc": "创建ai/目录"},
+      {"cmd": "--dry-run", "desc": "预览模式"},
+      {"cmd": "--yes", "desc": "跳过确认"}
+    ]
+  },
+  "summarize": {
+    "name": "summarize",
+    "emoji": "📝",
+    "nameCN": "内容摘要",
+    "description": "快速摘要 URL、文件和 YouTube 链接。支持 OpenAI、Anthropic、xAI、Google 模型。",
+    "category": "ai",
+    "tags": ["摘要", "URL", "YouTube"],
+    "author": "summarize.sh",
+    "usage": "summarize \"URL\" --model provider/model",
+    "commands": [
+      {"cmd": "summarize \"url\"", "desc": "摘要URL"},
+      {"cmd": "--model", "desc": "指定模型"},
+      {"cmd": "--length", "desc": "长度控制"},
+      {"cmd": "--json", "desc": "JSON输出"}
+    ]
+  },
+  "openai-whisper": {
+    "name": "openai-whisper",
+    "emoji": "🎙️",
+    "nameCN": "语音转文字",
+    "description": "本地语音转文字。使用 OpenAI Whisper CLI，无需 API key。",
+    "category": "ai",
+    "tags": ["语音转文字", "Whisper"],
+    "author": "OpenAI",
+    "usage": "whisper audio.mp3 --model medium",
+    "commands": [
+      {"cmd": "--model", "desc": "模型选择(turbo/medium/large)"},
+      {"cmd": "--output_format", "desc": "输出格式(txt/srt/vtt)"},
+      {"cmd": "--task", "desc": "transcribe/translate"}
+    ]
+  },
+  "nano-pdf": {
+    "name": "nano-pdf",
+    "emoji": "📄",
+    "nameCN": "PDF编辑器",
+    "description": "用自然语言指令编辑 PDF。",
+    "category": "tool",
+    "tags": ["PDF", "编辑"],
+    "author": "nano-pdf",
+    "usage": "nano-pdf edit file.pdf 页码 \"修改指令\"",
+    "commands": [
+      {"cmd": "edit", "desc": "编辑PDF页面"},
+      {"cmd": "页码", "desc": "0或1起始"}
+    ]
+  },
+  "nano-banana-pro": {
+    "name": "nano-banana-pro",
+    "emoji": "🖼️",
+    "nameCN": "AI图片生成",
+    "description": "Google Gemini 3 Pro 图片生成和编辑。文生图、图生图。",
+    "category": "ai",
+    "tags": ["图片生成", "Gemini"],
+    "author": "Nano Banana",
+    "usage": "uv run script/generate_image.py --prompt \"描述\" --filename name.png",
+    "commands": [
+      {"cmd": "--prompt", "desc": "图片描述"},
+      {"cmd": "--input-image", "desc": "输入图片(编辑)"},
+      {"cmd": "--resolution", "desc": "1K/2K/4K"}
+    ]
+  },
+  "github": {
+    "name": "github",
+    "emoji": "🐙",
+    "nameCN": "GitHub CLI",
+    "description": "使用 gh CLI 与 GitHub 交互。处理 PR、issues、workflows。",
+    "category": "dev",
+    "tags": ["GitHub", "PR", "CLI"],
+    "author": "GitHub",
+    "usage": "gh 命令",
+    "commands": [
+      {"cmd": "gh pr checks", "desc": "检查PR状态"},
+      {"cmd": "gh run list", "desc": "列出workflow"},
+      {"cmd": "gh api", "desc": "API查询"}
+    ]
+  },
+  "humanizer": {
+    "name": "humanizer",
+    "emoji": "✍️",
+    "nameCN": "AI写作润色",
+    "description": "去除 AI 写作痕迹。基于 Wikipedia 指南，识别并修复 24+ 种 AI 写作模式。",
+    "category": "ai",
+    "tags": ["写作", "润色"],
+    "author": "WikiProject",
+    "usage": "对文本进行润色处理",
+    "commands": []
+  },
+  "proactive-agent": {
+    "name": "proactive-agent",
+    "emoji": "🚀",
+    "nameCN": "主动式Agent架构",
+    "description": "主动式 Agent 架构。WAL 协议、Working Buffer、Compaction Recovery、自主动 cron。",
+    "category": "ai",
+    "tags": ["架构", "Hal Stack"],
+    "author": "Hal Labs",
+    "usage": "复制 assets/*.md 到工作区",
+    "commands": []
+  },
+  "obsidian": {
+    "name": "obsidian",
+    "emoji": "💎",
+    "nameCN": "Obsidian操作",
+    "description": "操作 Obsidian vault。搜索、创建、移动笔记。",
+    "category": "tool",
+    "tags": ["Obsidian", "知识库"],
+    "author": "Obsidian",
+    "usage": "obsidian-cli 命令",
+    "commands": [
+      {"cmd": "search", "desc": "搜索笔记"},
+      {"cmd": "create", "desc": "创建笔记"},
+      {"cmd": "move", "desc": "移动笔记"}
+    ]
+  },
+  "memory-setup": {
+    "name": "memory-setup",
+    "emoji": "🧠",
+    "nameCN": "记忆配置",
+    "description": "启用和配置持久记忆搜索。设置 MEMORY.md 和向量搜索。",
+    "category": "ai",
+    "tags": ["记忆", "向量搜索"],
+    "author": "OpenClaw",
+    "usage": "配置 memorySearch",
+    "commands": []
+  },
+  "skill-vetter": {
+    "name": "skill-vetter",
+    "emoji": "🔒",
+    "nameCN": "技能安全审查",
+    "description": "AI Agent 技能的安全审查协议。安装前检查红旗、权限范围。",
+    "category": "security",
+    "tags": ["安全", "审查"],
+    "author": "OpenClaw",
+    "usage": "安装技能前必查",
+    "commands": []
+  },
+  "bili-sunflower-publish": {
+    "name": "bili-sunflower-publish",
+    "emoji": "🎬",
+    "nameCN": "B站发布",
+    "description": "B站专栏和小站发布。",
+    "category": "media",
+    "tags": ["B站", "发布"],
+    "author": "信为美AI",
+    "usage": "发布到B站专栏/小站",
+    "commands": []
+  },
+  "edgeone-clawscan": {
+    "name": "edgeone-clawscan",
+    "emoji": "🛡️",
+    "nameCN": "安全扫描",
+    "description": "腾讯朱雀实验室 AI 安全扫描。安全体检、漏洞检测。",
+    "category": "security",
+    "tags": ["安全", "扫描"],
+    "author": "Tencent",
+    "usage": "开始安全体检",
+    "commands": []
+  },
+  "find-skills": {
+    "name": "find-skills",
+    "emoji": "🔍",
+    "nameCN": "技能发现",
+    "description": "发现和安装 Agent Skills。",
+    "category": "tool",
+    "tags": ["技能"],
+    "author": "OpenClaw",
+    "usage": "搜索安装技能",
+    "commands": []
+  },
+  "self-improving-agent": {
+    "name": "self-improving-agent",
+    "emoji": "🧬",
+    "nameCN": "自改进Agent",
+    "description": "自改进 Agent。学习错误、记录纠正。",
+    "category": "ai",
+    "tags": ["自改进"],
+    "author": "OpenClaw",
+    "usage": "自动学习改进",
+    "commands": []
+  },
+  "tavily-search": {
+    "name": "tavily-search",
+    "emoji": "🌐",
+    "nameCN": "Tavily搜索",
+    "description": "AI 优化网络搜索。",
+    "category": "ai",
+    "tags": ["搜索"],
+    "author": "Tavily",
+    "usage": "web_search 工具",
+    "commands": []
+  },
+  "video-downloader": {
+    "name": "video-downloader",
+    "emoji": "📥",
+    "nameCN": "视频下载",
+    "description": "通用视频下载。支持抖音、B站、YouTube、小红书。",
+    "category": "media",
+    "tags": ["视频下载"],
+    "author": "OpenClaw",
+    "usage": "发送视频链接",
+    "commands": []
+  },
+  "web-publish": {
+    "name": "web-publish",
+    "emoji": "🌏",
+    "nameCN": "网页发布",
+    "description": "将本地 Markdown/HTML 一键发布为在线链接。",
+    "category": "tool",
+    "tags": ["发布"],
+    "author": "信为美AI",
+    "usage": "publish file.md",
+    "commands": []
+  },
+  "xiaohongshu-mcporter-publish": {
+    "name": "xiaohongshu-mcporter-publish",
+    "emoji": "📕",
+    "nameCN": "小红书发布",
+    "description": "小红书 MCP 发布。",
+    "category": "media",
+    "tags": ["小红书", "发布"],
+    "author": "OpenClaw",
+    "usage": "发布到小红书",
+    "commands": []
+  }
+}
