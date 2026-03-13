@@ -10,16 +10,112 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 0;
       color: #e0e0e0;
     }
-    .container { max-width: 1400px; margin: 0 auto; }
+    
+    /* 导航栏 */
+    .navbar {
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      padding: 15px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-logo {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #00d9ff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .search-box {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s;
+    }
+    .search-box input:focus {
+      border-color: #00d9ff;
+      background: rgba(255,255,255,0.1);
+    }
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.9em;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #00d9ff; }
+    
+    /* 筛选按钮 */
+    .filters {
+      max-width: 1400px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: #888;
+      cursor: pointer;
+      font-size: 0.85em;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(0,217,255,0.2);
+      border-color: #00d9ff;
+      color: #00d9ff;
+    }
+    
+    /* 主内容区 */
+    .container { 
+      max-width: 1400px; 
+      margin: 0 auto; 
+      padding: 20px;
+    }
     header { 
       text-align: center; 
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
     h1 { 
-      font-size: 3em; 
+      font-size: 2.5em; 
       margin-bottom: 10px;
       background: linear-gradient(90deg, #00d9ff, #00ff88, #ffd700);
       -webkit-background-clip: text;
@@ -48,6 +144,8 @@
       color: #888;
       font-size: 0.85em;
     }
+    
+    /* 技能卡片 */
     .grid { 
       display: grid; 
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
@@ -79,6 +177,7 @@
       box-shadow: 0 10px 40px rgba(0,217,255,0.1);
     }
     .card:hover::before { opacity: 1; }
+    .card.hidden { display: none; }
     .card h2 { 
       font-size: 1.1em; 
       margin-bottom: 10px;
@@ -121,15 +220,8 @@
       padding: 2px 8px;
       border-radius: 8px;
     }
-    .footer {
-      text-align: center;
-      margin-top: 60px;
-      color: #444;
-      font-size: 0.8em;
-    }
-    .footer a { color: #00d9ff; text-decoration: none; }
     
-    /* 分类标签样式 */
+    /* 分类标签 */
     .tag.hr { background: rgba(255,107,107,0.1); color: #ff6b6b; border-color: rgba(255,107,107,0.2); }
     .tag.finance { background: rgba(0,255,136,0.1); color: #00ff88; border-color: rgba(0,255,136,0.2); }
     .tag.trade { background: rgba(255,159,67,0.1); color: #ff9f43; border-color: rgba(255,159,67,0.2); }
@@ -138,28 +230,85 @@
     .tag.media { background: rgba(255,71,87,0.1); color: #ff4757; border-color: rgba(255,71,87,0.2); }
     .tag.security { background: rgba(255,89,94,0.1); color: #ff595e; border-color: rgba(255,89,94,0.2); }
     .tag.tool { background: rgba(46,213,115,0.1); color: #2ed573; border-color: rgba(46,213,115,0.2); }
+    
+    /* 无结果提示 */
+    .no-result {
+      text-align: center;
+      padding: 60px;
+      color: #666;
+      display: none;
+    }
+    .no-result.show { display: block; }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 40px 20px;
+      color: #444;
+      font-size: 0.8em;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer a { color: #00d9ff; text-decoration: none; }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .nav-content { flex-direction: column; }
+      .search-box { max-width: 100%; }
+      .nav-links { gap: 10px; }
+      .stats { gap: 20px; }
+      .stat-value { font-size: 1.5em; }
+    }
   </style>
 </head>
 <body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="nav-content">
+      <a href="#" class="nav-logo">🛠️ OpenClaw Skills</a>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索技能... (支持中文、英文、标签)">
+      </div>
+      <div class="nav-links">
+        <a href="https://github.com/shtrend/openclaw-skills" target="_blank">📦 仓库</a>
+        <a href="#" onclick="filterAll()">全部</a>
+        <a href="#" onclick="filterNew()">🆕 新增</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- 筛选按钮 -->
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterAll()">全部</button>
+    <button class="filter-btn" onclick="filterCategory('ai')">🤖 AI</button>
+    <button class="filter-btn" onclick="filterCategory('dev')">💻 开发</button>
+    <button class="filter-btn" onclick="filterCategory('media')">📺 媒体</button>
+    <button class="filter-btn" onclick="filterCategory('security')">🔒 安全</button>
+    <button class="filter-btn" onclick="filterCategory('tool')">🛠️ 工具</button>
+    <button class="filter-btn" onclick="filterCategory('finance')">💰 金融</button>
+    <button class="filter-btn" onclick="filterCategory('trade')">🎯 交易</button>
+    <button class="filter-btn" onclick="filterCategory('hr')">📋 HR</button>
+  </div>
+  
   <div class="container">
     <header>
       <h1>🛠️ OpenClaw 技能库</h1>
       <p class="meta">持续更新 · OpenClaw Agent Skills</p>
       <div class="stats">
         <div class="stat">
-          <div class="stat-value">22</div>
+          <div class="stat-value" id="totalCount">22</div>
           <div class="stat-label">已安装技能</div>
         </div>
         <div class="stat">
-          <div class="stat-value">14</div>
+          <div class="stat-value" id="newCount">14</div>
           <div class="stat-label">今日新增</div>
         </div>
       </div>
     </header>
     
-    <div class="grid">
+    <div class="grid" id="skillsGrid">
       <!-- 今日新增 -->
-      <div class="card new">
+      <div class="card new" data-category="hr">
         <h2><span class="emoji">📋</span> labor-law</h2>
         <p>劳动法速查工具。劳动者权益、加班规定、休假制度、劳动合同、劳动争议、经济补偿。</p>
         <div class="tags">
@@ -169,7 +318,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="finance">
         <h2><span class="emoji">💰</span> investment-portfolio</h2>
         <p>投资组合分析。资产配置、风险评估、再平衡、收益分析、分散化、回测。</p>
         <div class="tags">
@@ -179,7 +328,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="trade">
         <h2><span class="emoji">🎯</span> polyclawster-agent</h2>
         <p>Polymarket 预测市场交易。非托管 - Agent 生成 Polygon 钱包，本地签名订单，通过 relay 提交。需资金。</p>
         <div class="tags">
@@ -189,7 +338,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="dev">
         <h2><span class="emoji">📁</span> wip-repo-init</h2>
         <p>脚手架标准 ai/ 目录结构。在任何仓库中创建标准的 AI 开发目录结构。</p>
         <div class="tags">
@@ -198,7 +347,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">📝</span> summarize</h2>
         <p>快速摘要 URL、文件和 YouTube 链接。支持 OpenAI、Anthropic、xAI、Google 模型。</p>
         <div class="tags">
@@ -208,7 +357,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">🎙️</span> openai-whisper</h2>
         <p>本地语音转文字。使用 Whisper CLI，无需 API key，支持多语言。</p>
         <div class="tags">
@@ -217,7 +366,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="tool">
         <h2><span class="emoji">📄</span> nano-pdf</h2>
         <p>用自然语言指令编辑 PDF。使用 nano-pdf CLI 操作特定页面。</p>
         <div class="tags">
@@ -226,7 +375,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">🖼️</span> nano-banana-pro</h2>
         <p>Google Gemini 3 Pro 图片生成和编辑。文生图、图生图，支持 1K/2K/4K 分辨率。</p>
         <div class="tags">
@@ -235,7 +384,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="dev">
         <h2><span class="emoji">🐙</span> github</h2>
         <p>使用 gh CLI 与 GitHub 交互。处理 PR、issues、workflows 和高级查询。</p>
         <div class="tags">
@@ -244,7 +393,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">✍️</span> humanizer</h2>
         <p>去除 AI 写作痕迹。基于 Wikipedia 指南，识别并修复 24+ 种 AI 写作模式。</p>
         <div class="tags">
@@ -253,7 +402,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">🚀</span> proactive-agent</h2>
         <p>主动式 Agent 架构。WAL 协议、Working Buffer、Compaction Recovery、自主动 cron。</p>
         <div class="tags">
@@ -262,7 +411,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="tool">
         <h2><span class="emoji">💎</span> obsidian</h2>
         <p>操作 Obsidian vault。搜索、创建、移动笔记，管理知识库。</p>
         <div class="tags">
@@ -271,7 +420,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="ai">
         <h2><span class="emoji">🧠</span> memory-setup</h2>
         <p>启用和配置记忆搜索。设置 MEMORY.md、日常日志和向量搜索。</p>
         <div class="tags">
@@ -280,7 +429,7 @@
         </div>
       </div>
 
-      <div class="card new">
+      <div class="card new" data-category="security">
         <h2><span class="emoji">🔒</span> skill-vetter</h2>
         <p>AI Agent 技能的安全审查协议。安装前检查红旗、权限范围和可疑模式。</p>
         <div class="tags">
@@ -290,7 +439,7 @@
       </div>
 
       <!-- 已安装技能 -->
-      <div class="card">
+      <div class="card" data-category="media">
         <h2><span class="emoji">🎬</span> bili-sunflower-publish</h2>
         <p>B站专栏和小站发布。处理登录检查、标题输入、HTML剪贴板发布。</p>
         <div class="tags">
@@ -299,7 +448,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="security">
         <h2><span class="emoji">🛡️</span> edgeone-clawscan</h2>
         <p>腾讯朱雀实验室 AI 安全扫描。安全体检、漏洞检测、技能审查。</p>
         <div class="tags">
@@ -308,15 +457,15 @@
         </div>
       </div>
 
-      <div class="card">
-        <h2><span class="emoji">🔍</span> find-skills</span></h2>
+      <div class="card" data-category="tool">
+        <h2><span class="emoji">🔍</span> find-skills</h2>
         <p>发现和安装 Agent Skills。搜索技能商店，安装和管理技能。</p>
         <div class="tags">
           <span class="tag tool">技能</span>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="ai">
         <h2><span class="emoji">🧬</span> self-improving-agent</h2>
         <p>自改进 Agent。学习错误、记录纠正、持续优化。</p>
         <div class="tags">
@@ -324,7 +473,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="ai">
         <h2><span class="emoji">🌐</span> tavily-search</h2>
         <p>AI 优化网络搜索。返回结构化结果，支持领域/地区过滤。</p>
         <div class="tags">
@@ -332,7 +481,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="media">
         <h2><span class="emoji">📥</span> video-downloader</h2>
         <p>通用视频下载。支持抖音、B站、YouTube、小红书等主流平台。</p>
         <div class="tags">
@@ -340,7 +489,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="tool">
         <h2><span class="emoji">🌏</span> web-publish</h2>
         <p>将本地 Markdown/HTML 一键发布为在线链接，手机直接访问。</p>
         <div class="tags">
@@ -348,7 +497,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" data-category="media">
         <h2><span class="emoji">📕</span> xiaohongshu-mcporter-publish</h2>
         <p>小红书 MCP 发布。笔记发布、Markdown 转笔记。</p>
         <div class="tags">
@@ -357,10 +506,72 @@
         </div>
       </div>
     </div>
+    
+    <div class="no-result" id="noResult">
+      <p style="font-size: 2em; margin-bottom: 20px;">🔍</p>
+      <p>没有找到匹配的技能</p>
+      <p style="font-size: 0.85em; margin-top: 10px; color: #555;">试试其他关键词或清除筛选</p>
+    </div>
 
     <div class="footer">
-      <p>🦀 钳星人 · OpenClaw · <a href="#">更新日志</a></p>
+      <p>🦀 钳星人 · <a href="https://github.com/shtrend/openclaw-skills" target="_blank">GitHub</a></p>
     </div>
   </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+    const noResult = document.getElementById('noResult');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    let currentCategory = 'all';
+    let currentSearch = '';
+
+    // 搜索功能
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.toLowerCase();
+      filterCards();
+    });
+
+    // 筛选功能
+    function filterAll() {
+      currentCategory = 'all';
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      filterBtns[0].classList.add('active');
+      filterCards();
+    }
+
+    function filterNew() {
+      currentCategory = 'new';
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      filterCards();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      filterCards();
+    }
+
+    function filterCards() {
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const hasCategory = currentCategory === 'all' || 
+          (currentCategory === 'new' ? card.classList.contains('new') : card.dataset.category === currentCategory);
+        const hasSearch = !currentSearch || text.includes(currentSearch);
+        
+        if (hasCategory && hasSearch) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      
+      noResult.classList.toggle('show', visibleCount === 0);
+      document.getElementById('totalCount').textContent = visibleCount;
+    }
+  </script>
 </body>
 </html>
