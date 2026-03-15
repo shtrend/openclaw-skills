@@ -75,6 +75,7 @@ chmod +x openclaw.sh
 
 ```powershell
 powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/byJoey/openclawctl/main/openclaw.ps1 | iex"
+
 ```
 
 运行一次后，新开 PowerShell 窗口输入 `oc` 即可快速启动。
@@ -170,18 +171,4 @@ Qwen 用的是 device flow，只需要在浏览器里输入授权码，两端都
 ```
 openclaw.sh              macOS / Linux 主脚本
 openclaw.ps1             Windows 主脚本
-```
-
----
-
-## 安装命令
-
-### macOS / Linux
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/byJoey/openclawctl/main/openclaw.sh)
-```
-
-### Windows
-```powershell
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/byJoey/openclawctl/main/openclaw.ps1 | iex"
 ```
